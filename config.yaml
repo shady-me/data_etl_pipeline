@@ -1,0 +1,52 @@
+# config.yaml - Configuration for Data ETL Pipeline
+
+data:
+  # Source data configuration
+  source_path: "data/raw/dataset.csv"  # Path to your raw data file
+  output_dir: "data/processed"         # Directory to save processed data
+  
+  # Target variable configuration (for supervised learning)
+  target_column: "target"              # Name of target variable (set to null if unsupervised)
+  required_columns:                    # List of columns that must be present
+    - "age"
+    - "income"
+    - "education"
+    - "marital_status"
+    - "target"
+
+preprocessing:
+  # Feature type specification
+  numeric_features:                    # List of numerical features
+    - "age"
+    - "income"
+    - "years_of_experience"
+  
+  categorical_features:                # List of categorical features
+    - "education"
+    - "marital_status"
+    - "employment_type"
+  
+  # Missing value handling strategies
+  numeric_impute_strategy: "median"    # Options: mean, median, most_frequent, constant
+  categorical_impute_strategy: "most_frequent"  # Options: most_frequent, constant
+  
+  # Feature scaling configuration
+  scaler: "standard"                   # Options: standard (StandardScaler), minmax (MinMaxScaler)
+  
+  # Train-test split configuration
+  test_size: 0.2                       # Proportion for test set (0-1)
+  random_state: 42                     # Random seed for reproducibility
+  
+  # Feature engineering options
+  create_interactions: false           # Whether to create interaction features
+  polynomial_features: false           # Whether to create polynomial features
+  feature_selection:                   # Feature selection configuration
+    enabled: false
+    method: "variance_threshold"       # Options: variance_threshold, select_k_best
+    params:
+      threshold: 0.01                  # Threshold for variance threshold method
+      k: 10                            # Number of features for select_k_best
+
+logging:
+  level: "INFO"                        # Logging level: DEBUG, INFO, WARNING, ERROR
+  file: "logs/etl_pipeline.log"        # Path to log file
